@@ -1,7 +1,7 @@
 {
   "name": "instagram",
   "version": "1.0.0",
-  "description": "Social Network",
+  "description": "Social network for developers",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -15,7 +15,8 @@
     "express": "^4.17.1",
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.4",
+    "mongoose": "^5.9.2",
+    "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "validator": "^12.2.0"
   },

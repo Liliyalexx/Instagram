@@ -9,6 +9,7 @@ const router = express.Router();
 const validateRegisterInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
 
+
 // @route   POST api/users/register
 // @desc    Register user
 // @access  Public
@@ -102,8 +103,7 @@ router.post('/login', (req,res)=> {
 // @route   GET api/users/current
 // @desc    Return current user information
 // @access  Private
-router.get(
-  '/current',
+router.get ('/current',
   passport.authenticate('jwt', {session: false}),
   (req, res) => {
     res.json({
