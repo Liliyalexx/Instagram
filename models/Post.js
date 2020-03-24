@@ -22,6 +22,14 @@ const PostSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'users'
       }
+    },
+  ],
+    tag:[
+      {
+      user:{
+        type: Schema.Types.ObjectId,
+        ref:'users'
+      }
     }
   ],
   comments: [
@@ -33,6 +41,9 @@ const PostSchema = new Schema({
       text: {
         type: String,
         required: true
+      },
+      tag: {
+        type:String
       },
       name: {
         type: String

@@ -47,7 +47,7 @@ router.post(
     // Tag user in comment
     // @access  Public
     router.post( 
-      '/:tag',
+      '/tag',
     passport.authenticate('jwt', {session:false}),
     (req, res) =>{
       Profile.findOne({ user: req.user.id }).then(profile => {
