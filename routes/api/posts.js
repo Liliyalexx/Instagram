@@ -50,7 +50,7 @@ router.post(
       '/:tag',
     passport.authenticate('jwt', {session:false}),
     (req, res) =>{
-      Post.findOne({ user: req.user.id }).then(profile => {
+      Profile.findOne({ user: req.user.id }).then(profile => {
         Post.findById(req.params.id)
           .then(post => {
             if (
@@ -61,12 +61,8 @@ router.post(
                 .status(400)
                 .json({ alreadytaged: 'User already taged this post' });
             }
-            // Add user id to tags array
-          post.tags.unshift({ user: req.user.id });
-
-          post.save().then(post => res.json(post));
         })
-        .catch(err => res.status(404).json({ postnotfound: 'No post found' }));
+        .catch(err => res.status(404).json({ postnotfound: 'there is no post' }));
     });
   }
 );
@@ -199,7 +195,7 @@ router.post(
     // Tag user in comment
     // @access  Public
 
-    router.get( 
+    router.post( 
       '/comment/tag/:id',
     passport.authenticate('jwt', {session:false}),
     (req, res) =>{
@@ -217,7 +213,7 @@ router.post(
             // Add user id to tags array
           post.tags.unshift({ user: req.user.id });
         })
-        .catch(err => res.status(404).json({ postnotfound: 'No post found' }));
+        .catch(err => res.status(404).json({ postnotfound: 'No post yet' }));
     });
   }
 );

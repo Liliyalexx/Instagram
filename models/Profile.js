@@ -18,9 +18,6 @@ const ProfileSchema = new Schema({
   bio: {
     type: String
   },
-  followersData: {
-    type: Array
-  }
 
 });
 
