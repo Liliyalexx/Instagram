@@ -20,17 +20,6 @@ router.get('/', (req, res) => {
     .catch(err => res.status(404).json({ postsnotfound: 'No posts found' }));
 });
 
-// @route   GET api/posts/:id
-// @desc    Get post by id
-// @access  Public
-router.get('/:id', (req, res) => {
-  Post.findById(req.params.id)
-    .then(post => res.json(post))
-    .catch(err =>
-      res.status(404).json({ postsnotfound: 'No post found with that ID' })
-    );
-});
-
 // @route   POST api/posts
 // @desc    Create post
 // @access  Private
@@ -45,18 +34,43 @@ router.post(
       // If any errors, send 400 with errors object
       return res.status(400).json(errors);
     }
-
-    const newPost = new Post({
+      const newPost = new Post({
       text: req.body.text,
       name: req.body.name,
       avatar: req.body.avatar,
       user: req.user.id
     });
-
     newPost.save().then(post => res.json(post));
   }
 );
+     //@route Get api/posts/tag
+    // Tag user in comment
+    // @access  Public
+    router.post( 
+      '/:tag',
+    passport.authenticate('jwt', {session:false}),
+    (req, res) =>{
+      Post.findOne({ post: newPost }).then(profile => {
+        Post.findById(req.params.id)
+          .then(post => {
+            if (
+              post.tags.filter(tag => tag.user.toString() === req.user.id)
+                .length === 0
+            ){
+              return res
+                .status(400)
+                .json({ alreadytaged: 'User already taged this post' });
+            }
+            // Add user id to tags array
+          post.tags.unshift({ user: req.user.id });
 
+          post.save().then(post => res.json(post));
+        })
+        .catch(err => res.status(404).json({ postnotfound: 'No post found' }));
+    });
+  }
+);
+    
 // @route   DELETE api/posts/:id
 // @desc    Delete post
 // @access  Private
@@ -181,10 +195,37 @@ router.post(
   }
 );
 
+    //@route Get api/posts/comment/tag/:id
+    // Tag user in comment
+    // @access  Public
+
+    router.get( 
+      '/comment/tag/:id',
+    passport.authenticate('jwt', {session:false}),
+    (req, res) =>{
+      Profile.findOne({ user: req.user.id }).then(profile => {
+        Post.findById(req.params.id)
+          .then(post => {
+            if (
+              post.tags.filter(tag => tag.post.toString() === req.post.id)
+                .length === 0
+            ){
+              return res
+                .status(400)
+                .json({ alreadytaged: 'User already taged this post' });
+            }
+            // Add user id to tags array
+          post.tags.unshift({ user: req.user.id });
+        })
+        .catch(err => res.status(404).json({ postnotfound: 'No post found' }));
+    });
+  }
+);
+    
 // @route   DELETE api/posts/comment/:id/:comment_id
 // @desc    Remove comment from post
 // @access  Private
-router.delete(
+router. delete(
   '/comment/:id/:comment_id',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
@@ -212,8 +253,10 @@ router.delete(
         post.save().then(post => res.json(post));
       })
       .catch(err => res.status(404).json({ postnotfound: 'No post found' }));
-  }
-);
+
+}
+)
+
 
 
 module.exports = router;

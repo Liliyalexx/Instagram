@@ -111,6 +111,7 @@ router.get ('/current',
       name: req.user.name,
       email: req.user.email
     });
+
   }
 );
 
