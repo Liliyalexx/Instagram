@@ -50,7 +50,7 @@ router.post(
       '/:tag',
     passport.authenticate('jwt', {session:false}),
     (req, res) =>{
-      Post.findOne({ post: newPost }).then(profile => {
+      Post.findOne({ user: req.user.id }).then(profile => {
         Post.findById(req.params.id)
           .then(post => {
             if (
