@@ -43,29 +43,39 @@ router.post(
     newPost.save().then(post => res.json(post));
   }
 );
-     //@route Get api/posts/tag
+     //@route Get api/posts/tag/:id
     // Tag user in comment
     // @access  Public
-    router.post( 
-      '/tag',
-    passport.authenticate('jwt', {session:false}),
-    (req, res) =>{
-      Profile.findOne({ user: req.user.id }).then(profile => {
+    router.post(
+      '/tag/:id',
+      passport.authenticate('jwt', { session: false }),
+      (req, res) => {
+        const { errors, isValid } = validatePostInput(req.body);
+    
+        // Check Validation
+        if (!isValid) {
+          // If any errors, send 400 with errors object
+          return res.status(400).json(errors);
+        }
+    
         Post.findById(req.params.id)
           .then(post => {
-            if (
-              post.tags.filter(tag => tag.user.toString() === req.user.id)
-                .length === 0
-            ){
-              return res
-                .status(400)
-                .json({ alreadytaged: 'User already taged this post' });
-            }
-        })
-        .catch(err => res.status(404).json({ postnotfound: 'there is no post' }));
-    });
-  }
-);
+            const newTag = {
+              text: req.body.text,
+              name: req.body.name,
+              avatar: req.body.avatar,
+              user: req.user.id
+            };
+    
+            // Add to Tags array
+            post.tag.unshift(newTag);
+    
+            // Save
+            post.save().then(post => res.json(post));
+          })
+          .catch(err => res.status(404).json({ postnotfound: 'No post found' }));
+      }
+    );
     
 // @route   DELETE api/posts/:id
 // @desc    Delete post
@@ -197,26 +207,35 @@ router.post(
 
     router.post( 
       '/comment/tag/:id',
-    passport.authenticate('jwt', {session:false}),
-    (req, res) =>{
-      Profile.findOne({ user: req.user.id }).then(profile => {
-        Post.findById(req.params.id)
-          .then(post => {
-            if (
-              post.tags.filter(tag => tag.post.toString() === req.post.id)
-                .length === 0
-            ){
-              return res
-                .status(400)
-                .json({ alreadytaged: 'User already taged this post' });
-            }
-            // Add user id to tags array
-          post.tags.unshift({ user: req.user.id });
-        })
-        .catch(err => res.status(404).json({ postnotfound: 'No post yet' }));
-    });
-  }
-);
+      
+        passport.authenticate('jwt', { session: false }),
+        (req, res) => {
+          const { errors, isValid } = validateCommentsInput(req.body);
+      var comment = newComment;
+          // Check Validation
+          if (!isValid) {
+            // If any errors, send 400 with errors object
+            return res.status(400).json(errors);
+          }
+      
+          comment.findById(req.params.id)
+            .then(post => {
+              const commentTag = {
+
+                name: req.body.name,
+                avatar: req.body.avatar,
+                user: req.user.id
+              };
+      
+              // Add to Tags array
+              comment.tag.unshift(commentTag);
+      
+              // Save
+              comment.save().then(post => res.json(post));
+            })
+            .catch(err => res.status(404).json({ postnotfound: 'No post found' }));
+        }
+      );
     
 // @route   DELETE api/posts/comment/:id/:comment_id
 // @desc    Remove comment from post

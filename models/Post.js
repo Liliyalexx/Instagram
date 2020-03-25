@@ -42,9 +42,14 @@ const PostSchema = new Schema({
         type: String,
         required: true
       },
-      tag: {
-        type:String
-      },
+      tag:[
+        {
+        user:{
+          type: Schema.Types.ObjectId,
+          ref:'users'
+        }
+      }
+    ],
       name: {
         type: String
       },
