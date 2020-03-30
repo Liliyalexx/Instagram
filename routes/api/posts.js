@@ -17,7 +17,18 @@ router.get('/', (req, res) => {
   Post.find()
     .sort({ date: -1 })
     .then(posts => res.json(posts))
-    .catch(err => res.status(404).json({ postsnotfound: 'No posts found' }));
+    .catch(err => res.status(404).json({ nopostsfound: 'No posts found' }));
+});
+
+// @route   GET api/posts/:id
+// @desc    Get post by id
+// @access  Public
+router.get('/:id', (req, res) => {
+  Post.findById(req.params.id)
+    .then(post => res.json(post))
+    .catch(err =>
+      res.status(404).json({ nopostfound: 'No post found with that ID' })
+    );
 });
 
 // @route   POST api/posts
@@ -34,49 +45,113 @@ router.post(
       // If any errors, send 400 with errors object
       return res.status(400).json(errors);
     }
-      const newPost = new Post({
+
+    const newPost = new Post({
       text: req.body.text,
       name: req.body.name,
       avatar: req.body.avatar,
       user: req.user.id
     });
+
     newPost.save().then(post => res.json(post));
   }
 );
-     //@route Get api/posts/tag/:id
+/////////////////////TAGS////////////////////////////
+  //@route Get api/posts/tag/:handle
     // Tag user in comment
     // @access  Public
-    router.post(
-      '/tag/:id',
-      passport.authenticate('jwt', { session: false }),
-      (req, res) => {
-        const { errors, isValid } = validatePostInput(req.body);
-    
-        // Check Validation
-        if (!isValid) {
-          // If any errors, send 400 with errors object
-          return res.status(400).json(errors);
-        }
-    
-        Post.findById(req.params.id)
+
+router.post(
+  '/tag/:handle',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validatePostInput(req.body);
+
+    // Check Validation
+    if (!isValid) {
+      // If any errors, send 400 with errors object
+      return res.status(400).json(errors);
+    }
+
+    Post.findOne(req.body.handle)
+      .then(post => {
+        const newTag = {
+          text: req.body.text,
+          handle:req.body.handle
+        };
+
+        // Add to comments array
+        post.tags.unshift(newTag);
+
+        // Save
+        post.save().then(post => res.json(post));
+      })
+      .catch(err => res.status(404).json({ postnotfound: 'No post found' }));
+  }
+);
+ 
+      //@route Get api/posts/tag/handle
+    // Tag user in comment
+    // @access  Private
+      router.get(
+        "/tag/:handle", 
+        (req, res) => {
+      Post.findOne({ handle: req.params.handle })
           .then(post => {
-            const newTag = {
-              text: req.body.text,
-              name: req.body.name,
-              avatar: req.body.avatar,
-              user: req.user.id
-            };
+            if (post) {
+              post.newTag.filter(newTag =>
+                  { 
+                    if(tag.user.toString() === req.user.id){
+                      result.push(post);
+                    }
+                  })
+              return res.json(result);
+              }
+            })
+            .catch(err => res.status(404).json({ postnotfound: 'No taged posts found' }));
+            }
+          )
     
-            // Add to Tags array
-            post.tag.unshift(newTag);
+      
+           
     
-            // Save
-            post.save().then(post => res.json(post));
-          })
-          .catch(err => res.status(404).json({ postnotfound: 'No post found' }));
-      }
-    );
-    
+// @route   DELETE api/posts/tag/:id/:post_id
+// @desc    Remove tag from post
+// @access  Private
+router. delete(
+  '/tag/:id/:tag_handle',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Post.findOne({ handle: req.body.handle })
+      .then(post => {
+        // Check to see if Tags exists
+        if (
+          post.tag.filter(
+            tag => tag._id.toString() === req.params.tag_id
+          ).length === 0
+        ) {
+          return res
+            .status(404)
+            .json({ tagnotexists: 'Tag does not exist' });
+        }
+
+        // Get remove index
+        const removeIndex = post.tags
+          .map(item => item._id.toString())
+          .indexOf(req.params.comment_id);
+
+        // Splice comment out of array
+        post.tags.splice(removeIndex, 1);
+
+        post.save().then(post => res.json(post));
+      })
+      .catch(err => res.status(404).json({ tagsnotfound: 'No tags found' }));
+
+}
+)
+
+  
+ 
 // @route   DELETE api/posts/:id
 // @desc    Delete post
 // @access  Private
@@ -84,8 +159,8 @@ router.delete(
   '/:id',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    Profile.findOne({ user: req.user.id }).then(profile => {
-      Post.findById(req.params.id)
+    Profile.findbyHandle({ handle: req.user.id }).then(profile => {
+      Post.findByHandle(req.params.id)
         .then(post => {
           // Check for post owner
           if (post.user.toString() !== req.user.id) {
@@ -201,42 +276,7 @@ router.post(
   }
 );
 
-    //@route Get api/posts/comment/tag/:id
-    // Tag user in comment
-    // @access  Public
-
-    router.post( 
-      '/comment/tag/:id',
-      
-        passport.authenticate('jwt', { session: false }),
-        (req, res) => {
-          const { errors, isValid } = validateCommentsInput(req.body);
-      var comment = newComment;
-          // Check Validation
-          if (!isValid) {
-            // If any errors, send 400 with errors object
-            return res.status(400).json(errors);
-          }
-      
-          comment.findById(req.params.id)
-            .then(post => {
-              const commentTag = {
-
-                name: req.body.name,
-                avatar: req.body.avatar,
-                user: req.user.id
-              };
-      
-              // Add to Tags array
-              comment.tag.unshift(commentTag);
-      
-              // Save
-              comment.save().then(post => res.json(post));
-            })
-            .catch(err => res.status(404).json({ postnotfound: 'No post found' }));
-        }
-      );
-    
+  
 // @route   DELETE api/posts/comment/:id/:comment_id
 // @desc    Remove comment from post
 // @access  Private

@@ -6,6 +6,10 @@ const PostSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'users'
   },
+  handle: {
+    type: String,
+    
+  },
   text: {
     type: String,
     required: true
@@ -24,14 +28,14 @@ const PostSchema = new Schema({
       }
     },
   ],
-    tag:[
+    tags:[
       {
-      user:{
-        type: Schema.Types.ObjectId,
-        ref:'users'
-      }
-    }
-  ],
+            user: {
+            type: Schema.Types.ObjectId,
+            ref: 'users'
+          }
+        },
+    ],
   comments: [
     {
       user: {
@@ -42,14 +46,7 @@ const PostSchema = new Schema({
         type: String,
         required: true
       },
-      tag:[
-        {
-        user:{
-          type: Schema.Types.ObjectId,
-          ref:'users'
-        }
-      }
-    ],
+    
       name: {
         type: String
       },
