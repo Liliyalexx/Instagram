@@ -89,32 +89,7 @@ router.post(
       .catch(err => res.status(404).json({ postnotfound: 'No post found' }));
   }
 );
- 
-      //@route Get api/posts/tag/handle
-    // Tag user in comment
-    // @access  Private
-      router.get(
-        "/tag/:handle", 
-        (req, res) => {
-      Post.findOne({ handle: req.params.handle })
-          .then(post => {
-            if (post) {
-              post.newTag.filter(newTag =>
-                  { 
-                    if(tag.user.toString() === req.user.id){
-                      result.push(post);
-                    }
-                  })
-              return res.json(result);
-              }
-            })
-            .catch(err => res.status(404).json({ postnotfound: 'No taged posts found' }));
-            }
-          )
-    
-      
-           
-    
+
 // @route   DELETE api/posts/tag/:id/:post_id
 // @desc    Remove tag from post
 // @access  Private
@@ -138,10 +113,10 @@ router. delete(
         // Get remove index
         const removeIndex = post.tags
           .map(item => item._id.toString())
-          .indexOf(req.params.comment_id);
+          .indexOf(req.params.tag_id);
 
         // Splice comment out of array
-        post.tags.splice(removeIndex, 1);
+        tags.splice(removeIndex, 1);
 
         post.save().then(post => res.json(post));
       })
@@ -149,9 +124,6 @@ router. delete(
 
 }
 )
-
-  
- 
 // @route   DELETE api/posts/:id
 // @desc    Delete post
 // @access  Private
