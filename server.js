@@ -34,7 +34,7 @@ app.use('/api/users', users);
 app.use('/api/profile', profile);
 app.use('/api/posts', posts);
 
-const port = 8026
+const port = 8033
 
 
 app.listen(port, () => console.log(`Server running on port ${port}`) );

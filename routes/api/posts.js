@@ -57,7 +57,27 @@ router.post(
   }
 );
 /////////////////////TAGS////////////////////////////
-  //@route Get api/posts/tag/:handle
+// @route   GET api/posts/tag/:user_id
+// @desc    Get taged posts
+// @access  Private
+
+router.get(
+  "/tag/:user_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const errors = {};
+    Post.findOne({ user: req.user.id })
+      .then(post => {
+        if (post.tag.length === 0) {
+          errors.nopost = "You don't tag any posts";
+          return res.status(404).json(errors);
+        }
+        res.json(post.tag);
+      })
+      .catch(err => res.status(404).json(err));
+  }
+);
+  //@route POST api/posts/tag/:handle
     // Tag user in comment
     // @access  Public
 
