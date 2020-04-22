@@ -1,33 +1,30 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 
 class Landing extends Component {
   render() {
     return (
-     
-<div className="Landing">
-<div className="main-content">
-  <div className="header">
-    <img src="instagram_logo.png" />
-  </div>
-  <input type="text" placeholder="Username"/>
-  <input type="password" placeholder="Password" />
-  <input type="button" value="Log in" className="btn" />
-  <div className="fogot-pass">
-    <a className="pass-link" href="#">Forgot password?</a>
-  </div>
-</div>
-<div className="sub-content">
-  <div className="signup">
-    Don't have an account? <a className="signup-link" href="#">Sign up</a>
-  </div>
-</div>
-</div>
-     
+      <div className="landing">
+        <div className="dark-overlay landing-inner text-light">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-12 text-center">
+                <h1 className="display-3 mb-4">Developer Connector
+            </h1>
+                <p className="lead"> Create a developer profile/portfolio, share posts and get help from other developers</p>
+                <hr />
+                <Link to="/register" className="btn btn-lg btn-info mr-2">Sign Up</Link>
+                <Link to="/login" className="btn btn-lg btn-light">Login</Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     )
   }
 }
 
-export default Landing
+export default Landing;
 
 
 
