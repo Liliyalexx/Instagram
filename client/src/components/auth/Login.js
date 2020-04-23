@@ -8,6 +8,8 @@ import TextFieldGroup from "../common/TextFieldGroup";
 import {Link} from 'react-router-dom';
 
 
+
+
 class Login extends Component {
   constructor() {
     super();
@@ -37,13 +39,13 @@ class Login extends Component {
 
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/post-feed");
+      this.props.history.push("/create-profile");
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
-      this.props.history.push("/post-feed");
+      this.props.history.push("/create-profile");
     }
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
@@ -59,6 +61,7 @@ class Login extends Component {
   render() {
     const { errors } = this.state;
     const {isPasswordShown} = this.state;
+
     return (
      
       <div className="wrapper">
@@ -95,7 +98,7 @@ class Login extends Component {
         </div>
       </div>
       <div className="sub-content">
-          Don't have an account? <Link className="sub-link" to="/register">Sign up</Link>
+          Don't have an account? <Link className="sub-link" to="/create-profile">Create profile</Link>
       </div>
     </div>
     

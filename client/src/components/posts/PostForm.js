@@ -65,7 +65,10 @@ class PostForm extends Component {
                     <div className="tab-content" >                
                         <div className="row top-row">
                           <div className="col-3 input-lable-wrapper">
-                            <Link to="/profile"><img src={user.avatar} alt={user.handle} className="avatar"/></Link>
+                            <Link to="/profile">
+                            <img src={user.avatar} alt={user.handle} 
+                            className="avatar"/>
+                            </Link>
                           </div> 
                           <div className="col-9">
                             <div className="username">{user.handle}</div>
@@ -78,7 +81,9 @@ class PostForm extends Component {
                               <lable className="input-lable" >Image URL</lable> 
                             </div> 
                             <div className="col-9">
-                              <input type="text" className={classnames('form-control', {'is-invalid': errors.image})} placeholder="insert image URL" 
+                              <input type="text" 
+                              className={classnames('form-control', {'is-invalid': errors.image})} 
+                              placeholder="insert image URL" 
                                 name="image" value={this.state.image}  onChange={this.onChange}/> 
                                 {errors.image && (
                                   <div className="invalid-feedback"> {errors.image}</div>
@@ -90,7 +95,9 @@ class PostForm extends Component {
                               <lable className="input-lable" >Username</lable> 
                             </div> 
                             <div className="col-9">
-                              <input type="text" className={classnames('form-control', {'is-invalid': errors.text})} placeholder="Caption" name="text"  
+                              <input type="text" 
+                              className={classnames('form-control', {'is-invalid': errors.text})} 
+                              placeholder="Caption" name="text"  
                                value={this.state.text}  onChange={this.onChange}/> 
                                 {errors.text && (
                                   <div className="invalid-feedback"> {errors.text}</div>

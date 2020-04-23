@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import isEmpty from '../../validation/is-empty';
-import { Link } from 'react-router-dom';
 
 class ProfileHeader extends Component {
   render() {
@@ -21,16 +20,21 @@ class ProfileHeader extends Component {
             </div>
             <div className="text-center">
               <h1 className="display-4 text-center">{profile.user.name}</h1>
-              
+              <p className="lead text-center">
+                {profile.status}{' '}
+                
                 {isEmpty(profile.website) ? null : (
                   <Link
                     className="text-white p-2"
-                    to={profile.website}
-                    target= "_blank"
+                   to={profile.website}
+                    target="_blank"
                   >
                     <i className="fas fa-globe fa-2x" />
                   </Link>
-                )}    
+                )}
+
+                
+              </p>
             </div>
           </div>
         </div>

@@ -13,9 +13,9 @@ import PrivateRoute from './components/common/PrivateRoute';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 // import Landing from './components/layout/Landing';
-import Register from './components/auth/Register';
+// import Register from './components/auth/Register';
 import Login from './components/auth/Login';
-// import CreateProfile from './components/create-profile/CreateProfile';
+import CreateProfile from './components/create-profile/CreateProfile';
 // import EditProfile from './components/edit-profile/EditProfile';
 // import Profiles from './components/profiles/Profiles';
 import Profile from './components/profile/Profile';
@@ -56,12 +56,31 @@ class App extends Component {
             <Navbar />
             <Route exact path="/" component={Login} />
             <div className="container">
-              <Route exact path="/register" component=  {Register} />
-              <Route exact path="/login" component={Login} />
-             
-              <Route exact path="/profile/:handle" component={Profile} />
               
-             
+              <Route exact path="/login" component={Login} />
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/create-profile"
+                  component={CreateProfile}
+                />
+              </Switch>
+              <Switch>
+              <PrivateRoute
+                exact
+                path="/profile"
+                component={Profile}
+              />
+            </Switch>
+              
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/create-post"
+                  component={CreateProfile}
+                />
+              </Switch>
+                
               <Switch>
                 <PrivateRoute exact path="/feed" component={Posts} />
               </Switch>

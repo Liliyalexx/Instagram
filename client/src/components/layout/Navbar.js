@@ -8,9 +8,9 @@ import { logoutUser } from '../../actions/authActions';
 import PropTypes from 'prop-types';
 import { addPost } from '../../actions/postActions'
 
-// import { addPost } from '../../actions/postActions'
 
-// import Landing from './Landing';
+
+
 
 class Navbar extends Component {
 
@@ -38,7 +38,7 @@ class Navbar extends Component {
   onSubmit(e){
     e.preventDefault();
 
-    const { user } = this.props.auth;
+    const { user} = this.props.auth;
     const newPost = {
       text: this.state.text,
       image: this.state.image,
@@ -60,7 +60,7 @@ l
   }
   
     render() {
-    const { isAuthenticated, user } = this.props.auth;
+    const { isAuthenticated, user} = this.props.auth;
     
     const authLink = (
       <div className="topnav-contanier">
@@ -77,7 +77,8 @@ l
           </i>
           </button>
            </Link>
-          <Link to="/post-feed" 
+
+          <Link to="/profile" 
           aria-hidden="true">
           <i className="fa fa-home home-btn black" 
           aria-hidden="true">
@@ -107,6 +108,7 @@ l
       </div>
      
     );
+    
     return (
       
        <div>

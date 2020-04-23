@@ -7,7 +7,28 @@ import {
   CLEAR_CURRENT_PROFILE,
   GET_ERRORS,
   SET_CURRENT_USER
+
 } from './types';
+
+// Create Profile
+export const createProfile = (profileData, history) => dispatch => {
+  axios
+    .post('/api/create-profile', profileData)
+    .then(res => history.push('/profile'))
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+// Profile loading
+export const setProfileLoading = () => {
+  return {
+    type: PROFILE_LOADING
+  };
+};
 
 // Get current profile
 export const getCurrentProfile = () => dispatch => {
@@ -47,18 +68,7 @@ export const getProfileByHandle = handle => dispatch => {
     );
 };
 
-// Create Profile
-export const createProfile = (profileData, history) => dispatch => {
-  axios
-    .post('/api/profile', profileData)
-    .then(res => history.push('/dashboard'))
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
-    );
-};
+
 
 
 
@@ -101,12 +111,7 @@ export const deleteAccount = () => dispatch => {
   }
 };
 
-// Profile loading
-export const setProfileLoading = () => {
-  return {
-    type: PROFILE_LOADING
-  };
-};
+
 
 // Clear profile
 export const clearCurrentProfile = () => {

@@ -1,4 +1,5 @@
 import { 
+  CREATE_PROFILE,
   PROFILE_LOADING,
   GET_PROFILE, 
   GET_PROFILES } from "../actions/types";
@@ -11,6 +12,11 @@ loading: false,
 };
 export default function (state = initialState, action){
   switch (action.type){
+    case CREATE_PROFILE:
+      return{
+        ...state, 
+        loading:true
+      };
     case PROFILE_LOADING:
       return{
         ...state, 
