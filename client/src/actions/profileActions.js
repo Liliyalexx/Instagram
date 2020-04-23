@@ -23,12 +23,7 @@ export const createProfile = (profileData, history) => dispatch => {
     );
 };
 
-// Profile loading
-export const setProfileLoading = () => {
-  return {
-    type: PROFILE_LOADING
-  };
-};
+
 
 // Get current profile
 export const getCurrentProfile = () => dispatch => {
@@ -66,6 +61,12 @@ export const getProfileByHandle = handle => dispatch => {
         payload: null
       })
     );
+};
+// Profile loading
+export const setProfileLoading = () => {
+  return {
+    type: PROFILE_LOADING
+  };
 };
 
 
