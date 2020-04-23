@@ -6,13 +6,13 @@ import { Link } from 'react-router-dom';
 import Spinner from '../common/Spinner';
 import { getCurrentProfile } from '../../actions/profileActions';
 import { getProfileByHandle } from '../../actions/profileActions';
-import {ProfileHeader} from './ProfileHeader';
+
 
 
 class Profile extends Component {
   componentDidMount() {
     if (this.props.match.params.handle) {
-      this.props.getCurrentProfile(this.props.match.params.handle);
+      this.props.getProfileByHandle(this.props.match.params.handle);
     }
   }
 
@@ -24,9 +24,8 @@ class Profile extends Component {
   }
 
   render() {
-    const { profile, loading } = this.props.profile;
+    const { profile, loading } = this.props;
     
-
     let profileContent;
 
     if (profile === null || loading) {
@@ -35,7 +34,7 @@ class Profile extends Component {
       profileContent = (
         <div className="row main-containier">
           
-          <div className="col-6"><ProfileHeader profile={profile} />
+          
             <div className="row profile-user-settings">
             
               <div className="profile-user-name">{profile.handle}</div>
@@ -53,8 +52,7 @@ class Profile extends Component {
               <div className="profile-real-name">{profile.name}</div> 
               <div>{profile.bio}</div>
             </div>
-          </div>
-        </div>  
+          </div> 
       )
     }
 
@@ -116,7 +114,7 @@ class Profile extends Component {
 }
 }
 Profile.propTypes = {
-  getCurrentProfile: PropTypes.func.isRequired,
+  getProfileByHandle: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired
 };
 
@@ -124,4 +122,4 @@ const mapStateToProps = state => ({
   profile: state.profile
 });
 
-export default connect(mapStateToProps, { getCurrentProfile })(Profile);
+export default connect(mapStateToProps, { getProfileByHandle })(Profile);

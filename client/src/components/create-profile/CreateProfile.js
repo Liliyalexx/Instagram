@@ -28,7 +28,7 @@ class CreateProfile extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps) {
-      this.props.history.push('/profile');
+      this.props.history.push('/profile/handle/${handle}`');
     }
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
