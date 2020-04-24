@@ -28,7 +28,7 @@ class CreateProfile extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps) {
-      this.props.history.push('/profile/handle/${handle}`');
+      this.props.history.push(`/profile/${profile.handle}`);
     }
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
@@ -43,8 +43,11 @@ class CreateProfile extends Component {
       handle: this.state.handle,
       website: this.state.website,
       bio: this.state.bio,
+
   
+
     };
+ 
 
     this.props.createProfile(profileData, this.props.history);
   }
@@ -56,7 +59,7 @@ class CreateProfile extends Component {
 
   render() {
     const { errors } = this.state;
-    const {profile} = this.props
+    const {profile} = this.props.profile;
 
     
 
@@ -87,7 +90,7 @@ class CreateProfile extends Component {
                   value={this.state.name}
                   onChange={this.onChange}
                   error={errors.name}
-                  info="Yor name."
+                  info="Your name."
                 />  
                            
               <TextFieldGroup
@@ -121,6 +124,8 @@ class CreateProfile extends Component {
                   type="submit"
                   value="Submit"
                   className="btn btn-info btn-block mt-4"
+                 
+                  
                 />
 
                
