@@ -13,8 +13,8 @@ import {
 // Create Profile
 export const createProfile = (profileData, history) => dispatch => {
   axios
-    .post('/api/create-profile', profileData)
-    .then(res => history.push('/profile'))
+    .post('/api/profile', profileData)
+    .then(res => history.push(`/profile/handle/${res.data.handle}`))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -120,3 +120,47 @@ export const clearCurrentProfile = () => {
     type: CLEAR_CURRENT_PROFILE
   };
 };
+
+// follow
+export const follow = (id, handle) => dispatch => {
+  axios
+    .post(`/api/profile/follow/${id}`)
+    .then(res => dispatch(getProfileByHandle(handle)))
+    .catch(err => 
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+
+// Remove like
+export const unfollow = (id, handle) => dispatch => {
+  axios
+    .post(`/api/posts/unlike/${id}`)
+    .then(res => dispatch(getProfileByHandle(handle)))
+    .catch(err => 
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+
+
+
+
+
+//Set / update profile
+export const updateProfile = (userData, history) => dispatch => {
+  axios.post("/api/profile", userData)
+  .then(res => history.push('/dashboard'))
+  .catch(err =>
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    })
+  )  
+}

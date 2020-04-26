@@ -77,7 +77,7 @@ class App extends Component {
                 <PrivateRoute
                   exact
                   path="/create-post"
-                  component={CreateProfile}
+                  component={Posts}
                 />
               </Switch>
                 
