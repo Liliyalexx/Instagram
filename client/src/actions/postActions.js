@@ -40,7 +40,7 @@ export const getPosts = () => dispatch => {
 export const getPost = (id) => dispatch => {
   dispatch(setPostLoading());
   axios
-    .get(`/api/posts/${id}`)
+    .get(`/api/post/${id}`)
     .then(res => 
       dispatch({
         type: GET_POST,
@@ -49,7 +49,7 @@ export const getPost = (id) => dispatch => {
     )
     .catch(err => 
       dispatch({
-        type: GET_POST,
+        type: GET_POSTS,
         payload: null
       }))
 }
@@ -70,12 +70,12 @@ export const getPost = (id) => dispatch => {
  */
 
 // Add new post 
-export const addPost = (postData, history) => dispatch => {
+export const addPost = (postId, history) => dispatch => {
   dispatch(clearErrors());
   axios
-    .post('/api/posts', postData)
-    .then(res => {
-      history.push("/post-feed");
+    .post('/api/posts', postId)
+    .then(res => {history
+      .push(`/api/posts/${postId}`);
       dispatch({
         type: ADD_POST,
         payload: res.data
@@ -91,7 +91,7 @@ export const addPost = (postData, history) => dispatch => {
 
 
 
-// Delet post
+// Delete post
 export const deletePost = (postId, commentId) => dispatch => {
   dispatch(clearErrors());
   axios
@@ -133,8 +133,7 @@ export const addComment = (postId,commentData) => dispatch => {
     }); 
 };
 
-
-// Delet comment
+// Delete comment
 export const deleteComment = (postId, commentId) => dispatch => {
   dispatch(clearErrors());
   console.log("Calling")
@@ -152,6 +151,18 @@ export const deleteComment = (postId, commentId) => dispatch => {
         payload: err.response.data
       })
     }); 
+};
+// Add Emoji
+export const MyEmojiRenderer = (id)=>dispatch =>{
+  axios
+  .post (`/api/posts/emoji/${id}`)
+  .then(res=>dispatch(getPosts()))
+  .catch(err=>
+    dispatch({
+      type:SET_ERRORS, 
+      payload:err.response.data
+    })
+    );
 };
 
 // Add like

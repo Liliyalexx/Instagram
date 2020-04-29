@@ -7,6 +7,7 @@ import Spinner from '../common/Spinner';
 // import CreateProfile from '../create-profile/CreateProfile';
 import { getCurrentProfile, follow, unfollow } from '../../actions/profileActions';
 import { getPosts } from '../../actions/postActions';
+import FacebookFollow from './FacebookFollow';
 
 
 
@@ -52,7 +53,8 @@ class Profile extends Component {
   
   
   render() {
-    const  { profile, loading, posts } = this.props.profile;
+    const  { profile } = this.props;
+    const  { loading, posts } = this.props;
     const { user } = this.props.auth;
     let profileContent, postContent;
     
@@ -64,7 +66,7 @@ class Profile extends Component {
          profileContent = (
         <div className="row main-containier">
           <div className="col-6 profile-avatar ">
-          <img src={profile.user.avatar} alt="" />
+          <img src={user.avatar} alt="" />
           </div>
           <div className="col-6">
           <div className="row profile-user-settings">
@@ -83,18 +85,18 @@ class Profile extends Component {
                 <span className="profile-stat-count">164</span> posts
                 </div>
                 <div>
-                <span className="profile-stat-count">{profile.followers !== undefined && profile.followers.length }
+                <span className="profile-stat-count">{user.followers !== undefined && profile.followers.length }
                 </span> followers
                 </div>
                 <div>
-                <span className="profile-stat-count">{profile.following !== undefined && profile.following.length }
+                <span className="profile-stat-count">{user.following !== undefined && profile.following.length }
                 </span> following
                 </div>
             </div>
             <div className="profile-bio">
-              <div className="profile-real-name">{profile.user.name}
+              <div className="profile-real-name">{user.name}
               </div> 
-              <div>{profile.bio}</div>
+              <div>{user.bio}</div>
             </div>
           </div>
         </div>  

@@ -6,10 +6,8 @@ import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logoutUser } from '../../actions/authActions';
 import PropTypes from 'prop-types';
-import { addPost } from '../../actions/postActions'
-
-
-
+import { addPost } from '../../actions/postActions';
+import { MDBIcon, MDBContainer } from 'mdbreact';
 
 
 class Navbar extends Component {
@@ -62,6 +60,7 @@ class Navbar extends Component {
     const { isAuthenticated, user} = this.props.auth;
     
     const authLink = (
+      
       <div className="topnav-contanier">
         <div className="topnav">
           <Link className="active" 
@@ -70,14 +69,20 @@ class Navbar extends Component {
           alt="logo" className="insta-logo"/>
           </Link>
           <Link className="add-new-post" 
-          to="/post-item">
+          to="/post">
           <button className="btn btn-primary button-post">
           <i className="fas fa-plus">
           </i>
           </button>
            </Link>
+           <MDBContainer>
+            <Link to="#!" 
+            className="fb-ic mr-3">
+           <MDBIcon fab icon="facebook-f" />
+          </Link>
+           </MDBContainer>
 
-          <Link to="/profile" 
+          <Link to="/dashboard" 
           aria-hidden="true">
           <i className="fa fa-home home-btn black" 
           aria-hidden="true">
@@ -90,6 +95,7 @@ class Navbar extends Component {
           aria-hidden="true">
           </i>
           </Link>
+
           <Link to="/profile" >
           <img src={user.avatar} 
           alt={user.name} 
@@ -106,9 +112,12 @@ class Navbar extends Component {
         </div>
       </div>
      
-    );
+    )
+
+
     
-    return (
+  return (
+    
       
        <div>
       {isAuthenticated ? authLink : undefined}
@@ -171,16 +180,17 @@ aria-hidden="true">
   </div>
 </div>
 </div>
-     
-          
+              
 
-    )
+    );
   }
-}
+  }
+
 
 Navbar.propTypes = {
   logoutUser: PropTypes.func.isRequired,
   addPost: PropTypes.func.isRequired,
+  SocialButtonsPage: PropTypes.object,
   auth: PropTypes.object.isRequired,
 }
 

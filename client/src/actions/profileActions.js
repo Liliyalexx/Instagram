@@ -14,8 +14,9 @@ import {
 export const createProfile = (profileData, history) => dispatch => {
   axios
     .post('/api/profile', profileData)
-    .then(res => history.push(`/profile/handle/${res.data.handle}`))
-    .catch(err =>
+    .then(res => history
+      .push(`/profile/handle/${res.data.handle}`))
+      .catch(err =>
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data

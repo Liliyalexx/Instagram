@@ -64,10 +64,36 @@ class Login extends Component {
 
     return (
      
-      <div className="wrapper">
-      <div className="main-content">
+      <div className="wrapper"> 
+      
+      <div id="backgroundCarousel" className="carousel slide" data-ride="carousel">
+      <ol className="carousel-indicators">
+        <li data-target="#backgroundCarousel" data-slide-to="0" className="active"></li>
+        <li data-target="#backgroundCarousel" data-slide-to="1"></li>
+        <li data-target="#backgroundCarousel" data-slide-to="2"></li>
+      </ol>
+      <div className="carousel-inner">
+        <div className="carousel-item active">
+          {/*Photo by Muhd Asyraaf on Unsplash*/}
+        <img className="d-block w-100 img-size" src="https://images.unsplash.com/photo-1511649475669-e288648b2339?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1778&q=80" alt="First slide" />
+        </div>
+        <div className="dark-overlay"></div>
+        <div className="carousel-item">
+          {/*Photo by Luis Alfonso Orellana on Unsplash*/}
+        <img className="d-block w-100 img-size" src="https://images.unsplash.com/photo-1472289065668-ce650ac443d2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80" alt="Second slide" />
+        </div>
+        <div className="dark-overlay"></div>
+        <div className="carousel-item">
+          {/*Photo by Anders Jildén on Unsplash*/}
+          <img className="d-block w-100 img-size" src="https://images.unsplash.com/photo-1454944338482-a69bb95894af?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1652&q=80"
+          alt="Third slide" />
+          <div className="dark-overlay"></div>
+        </div>
+      </div>
+      </div>
+      <div className="main-content"  id = "login">
         <div className="header">
-          <img alt="logo" src={require("../../img/Instagram_logo.jpg")} />
+          <img className="header-cover" alt="logo" src={require("../../img/Instagram_logo.jpg")} />
         </div>
         <form onSubmit={this.onSubmit}>
           <div>

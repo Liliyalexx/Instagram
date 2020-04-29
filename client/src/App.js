@@ -13,16 +13,17 @@ import PrivateRoute from './components/common/PrivateRoute';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 // import Landing from './components/layout/Landing';
-// import Register from './components/auth/Register';
+import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import CreateProfile from './components/create-profile/CreateProfile';
 // import EditProfile from './components/edit-profile/EditProfile';
 // import Profiles from './components/profiles/Profiles';
 import Profile from './components/profile/Profile';
-import Posts from './components/posts/Posts';
-// import Post from './components/post/Post';
+import Post from './components/posts/Posts';
 // import NotFound from './components/not-found/NotFound';
 import { SET_CURRENT_USER } from './actions/types';
+import FacebookFollow from './components/profile/FacebookFollow';
+
 
 if (localStorage.jwtToken){
   //decode
@@ -54,10 +55,13 @@ class App extends Component {
         <Router>
           <div className="App">
             <Navbar />
-            <Route exact path="/" component={Login} />
+            <FacebookFollow/>
+            
+            <Route exact path="/register" component={Register} />
             <div className="container">
-              
-              <Route exact path="/login" component={Login} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/post" component={Post} />  
+       
               <Switch>
                 <PrivateRoute
                   exact
@@ -68,22 +72,12 @@ class App extends Component {
               <Switch>
               <PrivateRoute
                 exact
-                path="/profile/:handle"
+                path="/profile"
                 component={Profile}
+                
               />
             </Switch>
-              
-              <Switch>
-                <PrivateRoute
-                  exact
-                  path="/create-post"
-                  component={Posts}
-                />
-              </Switch>
-                
-              <Switch>
-                <PrivateRoute exact path="/feed" component={Posts} />
-              </Switch>
+                            
               <Switch>
                 
               </Switch>

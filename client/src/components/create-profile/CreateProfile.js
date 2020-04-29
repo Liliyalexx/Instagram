@@ -77,7 +77,7 @@ class CreateProfile extends Component {
     <div className="main-content">
       <div className="header">
 
-      <div className="create-profile">
+      <div className="create-profile" id = "create profile">
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
